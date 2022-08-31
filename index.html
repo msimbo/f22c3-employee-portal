@@ -10,9 +10,46 @@
 <body>
 
 <h1>Employee Portal</h1>
+<hr/>
 
+<h4>All Employees</h4>
+<ul id="employee-list-all"></ul>
 
-<p><!-- @TODO --></p>
+<hr/>
+
+<!--
+Add Employees Section
+-->
+<h4>Add Employee</h4>
+<form id="employee-form-new">
+    <input type="text" name="employee-name" id="employee-name"/>
+    <input type="number" name="employee-pay" id="employee-pay"/>
+    <select name="employee-role" id="employee-role">
+        <option value="Q/A">Q/A</option>
+        <option value="Dev">Dev</option>
+        <option value="DevOps">DevOps</option>
+    </select>
+
+    <input type="submit" value="Add Employee"/>
+</form>
+
+<hr/>
+<!--
+    Give Bonus
+-->
+<h4>Give Bonus</h4>
+
+<form id="employee-form-bonus">
+    <select name="employee-name-bonus" id="employee-name-bonus">
+        <option value="Mary Ann">Mary Ann</option>
+        <option value="Don Draper">Don Draper</option>
+        <option value="John Smith">John Smith</option>
+    </select>
+
+    <input type="number" name="employee-bonus-amt" placeholder="pay" id="employee-bonus-amt">
+
+    <input type="submit" value="Give Bonus">
+</form>
 
 <script src="script.js"></script>
 </body>
