@@ -9,12 +9,12 @@ const employeeListAllEl = document.querySelector('#employee-list-all');
 const employeeFormNewEl = document.querySelector('#employee-form-new');
 const employeeFormBonusEl = document.querySelector('#employee-form-bonus');
 const payAmtEl = document.querySelector('#employee-bonus-amt');
-const employeeNameEl = document.querySelector('#employee-name-bonus');
+const employeeIDEl = document.querySelector('#employee-name-bonus');
 
 let employees = [
-    {fullName: 'John Smith', pay: 100, role: 'Q/A'},
-    {fullName: 'Mary Ann', pay: 180, role: 'Q/A'},
-    {fullName: 'Don Draper', pay: 120, role: 'Q/A'},
+    {id: 1, fullName: 'John Smith', pay: 100, role: 'Q/A'},
+    {id: 2, fullName: 'Mary Ann', pay: 180, role: 'Q/A'},
+    {id: 3, fullName: 'Don Draper', pay: 120, role: 'Q/A'},
 ];
 
 showAllEmployees(employees);
@@ -26,9 +26,9 @@ function updateEmployeeList(employees,
     selectHTMLEl.innerHTML = '';
     employees.forEach(item => {
         const option = document.createElement('option');
-        option.value = item.fullName;
+        option.value = item.id;
 
-        option.innerText = item.fullName;
+        option.innerText = `${item.fullName} - ID: ${item.id}`;
         selectHTMLEl.appendChild(option);
     });
 
@@ -38,7 +38,7 @@ function displayEmployee(aSingleEmployeeObject, HTMLToAppendTo = employeeListAll
     const li = document.createElement('li');
 
     li.innerHTML = `<p>${aSingleEmployeeObject.fullName}, 
-  $${aSingleEmployeeObject.pay}, ${aSingleEmployeeObject.role}</p>`;
+  $${aSingleEmployeeObject.pay}, ${aSingleEmployeeObject.role} <small>| ID: ${aSingleEmployeeObject.id}<small></p>`;
 
     HTMLToAppendTo.appendChild(li);
 
@@ -66,7 +66,7 @@ function showAllEmployees(arrayOfEmployees = [{}, {}]) {
  * @param newEmployeeObject
  * @param existingEmployees
  */
-function addEmployee(newEmployeeObject = {fullName: 'John Smith', pay: 100, role: 'Q/A'},
+function addEmployee(newEmployeeObject = {id: 1, fullName: 'John Smith', pay: 100, role: 'Q/A'},
                      existingEmployees = employees) {
 
     employees = [...existingEmployees, newEmployeeObject];
@@ -75,6 +75,16 @@ function addEmployee(newEmployeeObject = {fullName: 'John Smith', pay: 100, role
     updateEmployeeList(employees);
 }
 
+/**
+ * Utility functions
+ *
+ * @type {{generateId: (function(*))} }
+ */
+const Helper = {
+    generateId: (collection) => {
+        return Math.floor(Math.random() * 10000) + collection.length + 1;
+    }
+};
 
 /// Event Listeners
 
@@ -88,7 +98,7 @@ employeeFormNewEl.addEventListener('submit', (event) => {
     const role = document.querySelector('#employee-role').value;
 
     // create a new object from the values
-    const newEmployee = {fullName: fullName, pay: pay, role: role};
+    const newEmployee = {id: Helper.generateId(employees), fullName: fullName, pay: pay, role: role};
     //alternative:  const newEmployee = {fullName, pay, role};
     addEmployee(newEmployee, employees);
 
@@ -97,19 +107,19 @@ employeeFormNewEl.addEventListener('submit', (event) => {
 // Give an employee a raise
 employeeFormBonusEl.addEventListener('submit', (event) => {
     event.preventDefault();
+    // log
 
-
-    giveBonus(employeeNameEl.value, payAmtEl.value, employees);
+    giveBonus(Number(employeeIDEl.value), payAmtEl.value, employees);
 });
 
 // [].map : [ {},{}  ] => { ==black magic== } => [ {}, {} ]
 
-function giveBonus(employeeName, bonusAmount, arrayOfEmployee = employees) {
+function giveBonus(employeeID, bonusAmount, arrayOfEmployee = employees) {
 
     employees = arrayOfEmployee.map((item) => {
 
-        if (item.fullName === employeeName) { //true
-            return {fullName: item.fullName, pay: item.pay + Number(bonusAmount), role: item.role};
+        if (item.id === employeeID) { //true
+            return {id: Number(item.id), fullName: item.fullName, pay: item.pay + Number(bonusAmount), role: item.role};
         }
         // false
         return item;
