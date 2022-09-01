@@ -93,8 +93,8 @@ employeeFormNewEl.addEventListener('submit', (event) => {
     event.preventDefault();
 
     // get the values from the form in the index.html....
-    const fullName = document.querySelector('#employee-name').value;
-    const pay = Number(document.querySelector('#employee-pay').value);
+    let fullName = document.querySelector('#employee-name').value;
+    let pay = document.querySelector('#employee-pay').value;
     const role = document.querySelector('#employee-role').value;
 
     // create a new object from the values
@@ -102,6 +102,21 @@ employeeFormNewEl.addEventListener('submit', (event) => {
     //alternative:  const newEmployee = {fullName, pay, role};
     addEmployee(newEmployee, employees);
 
+    // make the values empty to allow to input the next item
+
+    // an alternative way to get the #employee-name without going through the document.*
+    // the "event.target" refers to this form
+    // then we set the `.value` to empty
+    event.target[0].value = '';
+
+    // we getting the "#employee-pay.
+    // this is the second item in the `event.target` array
+    event.target[1].value = '';
+
+
+    // finally, we set the "focus" to the "name", so it's ready to start typing the next employee
+    // this is the "effect" that Google uses to keep the input in focus when you load the page
+    event.target[0].focus();
 });
 
 // Give an employee a raise
