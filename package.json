@@ -3,6 +3,7 @@
     "live-server": "^1.2.2"
   },
   "scripts": {
-    "dev" : "live-server"
+    "prep" : "npx crlf --set=LF node_modules/.bin/live-server",
+    "dev" : "node_modules/.bin/live-server ."
   }
 }

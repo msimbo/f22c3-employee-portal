@@ -84,7 +84,7 @@ employeeFormNewEl.addEventListener('submit', (event) => {
 
     // get the values from the form in the index.html....
     const fullName = document.querySelector('#employee-name').value;
-    const pay = document.querySelector('#employee-pay').value;
+    const pay = Number(document.querySelector('#employee-pay').value);
     const role = document.querySelector('#employee-role').value;
 
     // create a new object from the values
@@ -103,15 +103,6 @@ employeeFormBonusEl.addEventListener('submit', (event) => {
 });
 
 // [].map : [ {},{}  ] => { ==black magic== } => [ {}, {} ]
-
-function findEmployeeBonus(item) {
-
-    if (item.fullName === 'Mary Ann') {
-        return {fullName: item.fullName, pay: item.pay + 33300, role: item.role};
-    }
-
-    return item;
-}
 
 function giveBonus(employeeName, bonusAmount, arrayOfEmployee = employees) {
 
