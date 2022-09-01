@@ -17,41 +17,64 @@ let employees = [
     {fullName: 'Don Draper', pay: 120, role: 'Q/A'},
 ];
 
-// let newEmployees = [];
+showAllEmployees(employees);
+updateEmployeeList(employees);
+
+function updateEmployeeList(employees,
+                            selectHTMLEl = document.querySelector('#employee-name-bonus')) {
+
+    selectHTMLEl.innerHTML = '';
+    employees.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.fullName;
+
+        option.innerText = item.fullName;
+        selectHTMLEl.appendChild(option);
+    });
+
+}
 
 function displayEmployee(aSingleEmployeeObject, HTMLToAppendTo = employeeListAllEl) {
     const li = document.createElement('li');
+
     li.innerHTML = `<p>${aSingleEmployeeObject.fullName}, 
   $${aSingleEmployeeObject.pay}, ${aSingleEmployeeObject.role}</p>`;
 
     HTMLToAppendTo.appendChild(li);
+
 }
 
 /**
  * This shows a list of all employees
  *
- * @param arrayOfEmployees
+ * @param arrayOfEmployees: Array
  */
 function showAllEmployees(arrayOfEmployees = [{}, {}]) {
-    employeeListAllEl.innerHTML = '';
 
+    employeeListAllEl.innerHTML = '';
     arrayOfEmployees.forEach(function (aSingleEmployee) {
+
         displayEmployee(aSingleEmployee);
+
     });
 
 }
 
-showAllEmployees(employees);
-
+/**
+ * Adds a new employee to an existing array
+ *
+ * @param newEmployeeObject
+ * @param existingEmployees
+ */
 function addEmployee(newEmployeeObject = {fullName: 'John Smith', pay: 100, role: 'Q/A'},
                      existingEmployees = employees) {
-
-    // const newEmployees = [...existingEmployees, newEmployeeObject];
 
     employees = [...existingEmployees, newEmployeeObject];
 
     showAllEmployees(employees);
+    updateEmployeeList(employees);
 }
+
 
 /// Event Listeners
 
@@ -79,6 +102,7 @@ employeeFormBonusEl.addEventListener('submit', (event) => {
     giveBonus(employeeNameEl.value, payAmtEl.value, employees);
 });
 
+// [].map : [ {},{}  ] => { ==black magic== } => [ {}, {} ]
 
 function findEmployeeBonus(item) {
 
@@ -90,16 +114,13 @@ function findEmployeeBonus(item) {
 }
 
 function giveBonus(employeeName, bonusAmount, arrayOfEmployee = employees) {
-    //
-    //
-    // console.log(employeeName);
-    // console.log(bonusAmount);
+
     employees = arrayOfEmployee.map((item) => {
 
-        if (item.fullName === employeeName) {
-            return {fullName: item.fullName, pay: item.pay + bonusAmount, role: item.role};
+        if (item.fullName === employeeName) { //true
+            return {fullName: item.fullName, pay: item.pay + Number(bonusAmount), role: item.role};
         }
-
+        // false
         return item;
     });
 
